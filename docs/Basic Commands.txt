@@ -58,3 +58,11 @@ chmod a+x talker.py
 rosrun ros_basics_tutorials talker.py
 rostopic echo /chatter
 
+
+
+
+# Custom Messages
+# Make a msg folder and add the file
+# Add to CMakeLists.txt and package.xml
+catkin_make
+rosmsg show IoTSensor
