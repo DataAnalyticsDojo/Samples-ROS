@@ -1,0 +1,60 @@
+#Install ROS
+#http://wiki.ros.org/noetic/Installation/Ubuntu
+
+
+#Catkin workspace setup
+#http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+cd ~
+mkdir -p ~/catkin_ws/src/
+cd ~/catkin_ws/
+catkin_make
+
+#ROS gets installed here:
+/opt/ros/noetic/
+
+#Make a new directory to edit package source in
+source ~/.bashrc
+roscd
+cd ../src
+catkin_create_pkg ros_basics_tutorials std_msgs rospy roscpp
+cd ..
+catkin_make
+cd /home/ubuntu/catkin_ws/src/ros_basics_tutorials
+code ./
+
+
+#Start ROS
+roscore
+rosnode list
+rostopic list
+
+#Turtle Sim
+rosrun turtlesim turtlesim_node
+rosrun turtlesim turtle_teleop_key
+rosnode info /turtlesim
+rostopic info /turtle1/cmd_vel
+rosnode info /teleop_turtle
+
+
+# Messages
+#Twist Msg: /opt/ros/noetic/share/geometry_msgs/msg/Twist.msg
+rosmsg show geometry_msgs/Twist
+rosmsg show geometry_msgs/Pose
+rostopic pub -r 10 /turtle1/cmd_vel geometry_msgs/Twist '{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}'
+
+# See the ROS computation graph
+rosrun rqt_graph rqt_graph
+
+# See the messages that are being published to a topic
+rostopic echo /turtle1/cmd_vel
+rostopic echo /turtle1/pose
+
+
+
+#Make a talker
+cd ~/catkin_ws/src/ros_basics_tutorials/src
+vi talker.py
+chmod a+x talker.py
+rosrun ros_basics_tutorials talker.py
+rostopic echo /chatter
+
